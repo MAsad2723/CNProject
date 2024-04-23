@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Heading</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        #container {
+            text-align: center;
+        }
+
+        #userInput {
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        #output {
+            font-size: 24px;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form>
+        <input type="text" name="email" id="email" placeholder="Enter your email"><br>
+        <input type="text" name="subject" id="subject" placeholder="Subject"><br>
+        <input type="text" name="text" id="text" placeholder="Enter your text to send"><br>
+        <button onclick="renderText(event)">Submit</button>
+        <h1 id="output">Hello</h1>
+    </form>
+
+    <script>
+        const renderText = async (e) => {
+            e.preventDefault();
+            var email = document.getElementById('email').value;
+            var subject = document.getElementById('subject').value;
+            var text = document.getElementById('text').value;
+            console.log(email, subject, text);
+            document.getElementById('output').innerText = email;
+            const response = await fetch(`http://localhost:5000/email`, {
+                method: "POST",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ "email": email, "text": text, "subject": subject }),
+            });
+            const result = await response.json();
+            console.log(result)
+        }
+    </script>
+
+</body>
+
+</html>
